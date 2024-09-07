@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Usuario {
-
+    //commmit desde intelli j
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
