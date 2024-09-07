@@ -3,8 +3,6 @@ package com.prueba_tecnica.restaurante.domain.usuarios;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Table(name="usuarios")
 @Entity(name = "Usuario")
