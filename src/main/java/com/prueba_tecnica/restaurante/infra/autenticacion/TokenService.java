@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.prueba_tecnica.restaurante.domain.usuarios.Usuario;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,12 +14,14 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
+    @Value("${api.security-token.secret}")//extrae el valor de esta propiedad
+    private String secretKey;//toma el valor extraido de la propiedad
 
     //crear token
     public String generarTokenJwt(Usuario usuario){
         String tokenJWT;
         try {
-            Algorithm algorithm = Algorithm.HMAC256("12345");
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
              tokenJWT = JWT.create()
                     .withIssuer("Restaurante") //quien emite el token
                      .withSubject(usuario.getUsername())//a quien va dirido el token

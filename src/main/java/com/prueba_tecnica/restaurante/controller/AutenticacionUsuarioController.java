@@ -2,6 +2,7 @@ package com.prueba_tecnica.restaurante.controller;
 
 import com.prueba_tecnica.restaurante.domain.usuarios.LoginUsuarioDTO;
 import com.prueba_tecnica.restaurante.domain.usuarios.Usuario;
+import com.prueba_tecnica.restaurante.infra.autenticacion.ResponseTokenJWT;
 import com.prueba_tecnica.restaurante.infra.autenticacion.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,8 @@ public class AutenticacionUsuarioController {
         //retornar el token generado una vez autenticado el usuario
         //Se usa un "casteo" para asegurar que el principal sea tratado como un objeto de la clase Usuario.
         var tokenJwt = tokenService.generarTokenJwt((Usuario) usuarioAutenticado.getPrincipal());
-        //retorna jwt
-        return ResponseEntity.ok(tokenJwt);
+        //retorna jwt y el rol del usuario
+        return ResponseEntity.ok(new ResponseTokenJWT(tokenJwt, ((Usuario) usuarioAutenticado.getPrincipal()).getRolUsuario().name()));
     }
 
 
