@@ -1,4 +1,4 @@
-package com.prueba_tecnica.restaurante.infra.seguridad;
+package com.prueba_tecnica.restaurante.infra.autenticacion;
 
 import com.prueba_tecnica.restaurante.domain.usuarios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ public class AutenticacionUsuarioService implements UserDetailsService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    //carga usuarios desde la base de datos
     @Override
     public UserDetails loadUserByUsername(String nombreUsuario) throws UsernameNotFoundException {
         return usuarioRepository.findByNombreUsuario(nombreUsuario);
