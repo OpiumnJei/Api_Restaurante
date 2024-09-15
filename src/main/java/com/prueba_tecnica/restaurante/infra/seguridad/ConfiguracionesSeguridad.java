@@ -1,5 +1,7 @@
 package com.prueba_tecnica.restaurante.infra.seguridad;
 
+import com.prueba_tecnica.restaurante.infra.errores.Tratar401;
+import com.prueba_tecnica.restaurante.infra.errores.Tratar403;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.lang.reflect.Method;
 
 @Configuration //spring siempre carga las configuraciopn en primer lugar
 @EnableWebSecurity//habilita la configuración de seguridad web personalizada en una aplicación
@@ -32,12 +32,18 @@ public class ConfiguracionesSeguridad {
                 .and()
                 .authorizeHttpRequests()//Método para manejar la autorización
                 .requestMatchers(HttpMethod.POST, "/restaurante/login").permitAll() //Permitir login sin autenticación
+                .requestMatchers("/restaurante/ingredientes/**").hasRole("ADMINISTRADOR")//se da acceso a los ingredientes solo a los admins
+                .requestMatchers("/restaurante/platos/**").hasRole("ADMINISTRADOR")//se da acceso a los platos solo a los admins
+                .requestMatchers("/restaurante/ordenes/**").hasRole("MESERO")//se da acceso a las ordenes solo a los meseros
                 .anyRequest().authenticated()//Requerir autenticación para cualquier otra petición
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new Tratar401())//lanzar el 401
+                .accessDeniedHandler(new Tratar403())//lanzar 403
                 .and()
                 .addFilterBefore(filtroSeguridad, UsernamePasswordAuthenticationFilter.class)//agregamos nuestro filtro antes que el de Spring security
                 .build();
     }
-
 
     //metodo para que el AuthenticationManager, se usa @Bean para que spring la gestione
     @Bean

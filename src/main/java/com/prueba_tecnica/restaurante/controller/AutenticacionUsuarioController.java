@@ -32,7 +32,7 @@ public class AutenticacionUsuarioController {
     //autenticarDatos
     @PostMapping
     public ResponseEntity autenticarUsuario(@RequestBody @Valid LoginUsuarioDTO loginUsuarioDTO){
-        //token representa una solicitud de autenticación con las credenciales proporcionadas.
+        //datosUsuario representa una solicitud de autenticación con las credenciales proporcionadas.
         Authentication datosUsuario = new UsernamePasswordAuthenticationToken(loginUsuarioDTO.nombreUsuario(), loginUsuarioDTO.contrasenia());
         // Se pasa el token de autenticación al AuthenticationManager para intentar autenticar al usuario.
         var usuarioAutenticado = authenticationManager.authenticate(datosUsuario);

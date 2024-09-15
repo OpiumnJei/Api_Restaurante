@@ -1,11 +1,13 @@
 package com.prueba_tecnica.restaurante.controller;
 
 import com.prueba_tecnica.restaurante.domain.usuarios.DatosUsuariosDTO;
+import com.prueba_tecnica.restaurante.domain.usuarios.Usuario;
 import com.prueba_tecnica.restaurante.domain.usuarios.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,30 +22,23 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/mesero")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")//antes de llamar al metodo verificar si el usuario es un administrador
     public ResponseEntity<String> registrarMesero(@RequestBody @Valid DatosUsuariosDTO datosUsuariosDTO, Authentication authentication) {
-        // Verifica si el usuario actual es un Super Admin o Administrador
-        if (hasRole(authentication, "SUPER_ADMIN") || hasRole(authentication, "ADMIN")) {
-            // Validar y crear el usuario Mesero
-            if (!"MESERO".equalsIgnoreCase(datosUsuariosDTO.rolUsuario().name())) {
-                return ResponseEntity.badRequest().body("El rol debe ser MESERO");
-            }
-
-            usuarioService.crearUsuario(datosUsuariosDTO);
-            return ResponseEntity.ok("Mesero registrado exitosamente");
+        //verificar que el usuario tenga el rol de administrador
+        if(hasRole(authentication, "ADMINISTRADOR")){
+            usuarioService.crearUsuarioMesero(datosUsuariosDTO);
+            return ResponseEntity.ok("Usuario creado con exito!");
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes permiso para registrar un mesero");
     }
 
-    @PostMapping("/registro/administrador")
+    @PostMapping("/administrador")
+//    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<String> registrarAdministrador(@RequestBody @Valid DatosUsuariosDTO datosUsuariosDTO, Authentication authentication) {
-        // Verifica si el usuario actual es un Super Admin
-        if (hasRole(authentication, "SUPER_ADMIN")) {
-            // Validar y crear el usuario Administrador
-            if (!"ADMIN".equalsIgnoreCase(datosUsuariosDTO.rolUsuario().name())) {
-                return ResponseEntity.badRequest().body("El rol debe ser ADMIN");
-            }
-            usuarioService.crearUsuario(datosUsuariosDTO);
-
+        // Verifica si el usuario actual sea un administrador
+        if (hasRole(authentication, "ADMINISTRADOR")) {
+            usuarioService.crearUsuarioAdmin(datosUsuariosDTO);
+            return ResponseEntity.ok("Usuario creado con exito!");
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes permiso para registrar un administrador");
     }
@@ -54,4 +49,5 @@ public class UsuarioController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_" + role));
     }
 }
+
 

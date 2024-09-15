@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class MesaController {
     private MesaService service;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity guardarMesa(@RequestBody @Valid DatosMesaDTO datosMesaDTO){
         //se guarda en la bd
         service.guardarMesa(datosMesaDTO);
@@ -27,6 +29,7 @@ public class MesaController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity actualizarMesa(@PathVariable Long id, @RequestBody ActualizarMesaDTO actualizarMesaDTO){
         var mesaActualizada = service.actualizarMesa(id, actualizarMesaDTO);
 
@@ -34,6 +37,7 @@ public class MesaController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('MESERO')")
     public ResponseEntity<Page<ListaMesasDTO>> listarMesas(Pageable pageable){
 
         var listaMesa = service.listarMesas(pageable);
@@ -42,6 +46,7 @@ public class MesaController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('MESERO')")
     public ResponseEntity listarMesasId(@PathVariable Long id){
 
         return ResponseEntity.ok(service.listarMesaId(id));
@@ -49,6 +54,7 @@ public class MesaController {
 
     //listar las ordenes en proceso de para una mesa
     @GetMapping("/ordenes/{idMesa}")
+    @PreAuthorize("hasRole('MESERO')")
     public ResponseEntity listarOrdenMesaId(@PathVariable Long idMesa){
         var ordenesMesa = service.listarOrdenesMesaId(idMesa);
 
@@ -57,6 +63,7 @@ public class MesaController {
 
     //cambiar estado a una mesa
     @PutMapping("/estado-mesa/{id}")
+    @PreAuthorize("hasRole('MESERO')")
     public ResponseEntity cambiarEstadoMesa(@PathVariable Long id, @RequestBody DatosMesaDTO datosMesaDTO){
 
         service.cambiarEstadoMesa(id, datosMesaDTO);

@@ -8,8 +8,7 @@ public record DatosUsuariosDTO(
          @NotBlank
          String nombreUsuario,
          @NotBlank
-         String contrasenia,
-         @NotNull
-         RolUsuario rolUsuario
+         String contrasenia
+
 ) {
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class IngredienteController {
     private IngredienteService service;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity guardarIngrediente(@RequestBody @Valid DatosIngredientesDTO datosIngredientesDTO){
         service.guardarIngrediente(datosIngredientesDTO);
 
@@ -23,6 +25,7 @@ public class IngredienteController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity actualizarIngrediente(@PathVariable Long id, @RequestBody ActualizarIngredienteDTO actualizarIngredienteDTO){
        var datos = service.actualizarIngrediente(id, actualizarIngredienteDTO);
        //retorna los datos actualizados
@@ -30,6 +33,7 @@ public class IngredienteController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<Page<ListaIngredientesDTO>> listarIngredientes(Pageable pageable){
         var listaIngredientes = service.listarIngredientes(pageable)
                 .map(ListaIngredientesDTO::new);
@@ -38,6 +42,7 @@ public class IngredienteController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity listarIngredienteId(@PathVariable Long id){
         var listaIngredientes = service.listarIngredientesId(id);
 
