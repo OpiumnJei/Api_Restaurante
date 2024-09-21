@@ -17,7 +17,6 @@ public class IngredienteController {
     private IngredienteService service;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity guardarIngrediente(@RequestBody @Valid DatosIngredientesDTO datosIngredientesDTO){
         service.guardarIngrediente(datosIngredientesDTO);
 
@@ -25,7 +24,6 @@ public class IngredienteController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity actualizarIngrediente(@PathVariable Long id, @RequestBody ActualizarIngredienteDTO actualizarIngredienteDTO){
        var datos = service.actualizarIngrediente(id, actualizarIngredienteDTO);
        //retorna los datos actualizados
@@ -33,7 +31,6 @@ public class IngredienteController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<Page<ListaIngredientesDTO>> listarIngredientes(Pageable pageable){
         var listaIngredientes = service.listarIngredientes(pageable)
                 .map(ListaIngredientesDTO::new);
@@ -42,7 +39,6 @@ public class IngredienteController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity listarIngredienteId(@PathVariable Long id){
         var listaIngredientes = service.listarIngredientesId(id);
 

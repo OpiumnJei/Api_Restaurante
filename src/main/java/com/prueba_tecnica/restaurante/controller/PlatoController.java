@@ -17,34 +17,32 @@ public class PlatoController {
     private PlatoService service;
 
     @PostMapping
-    public ResponseEntity crearPlato(@RequestBody @Valid DatosPlatoDTO datosPlatoDTO){
+    public ResponseEntity crearPlato(@RequestBody @Valid DatosPlatoDTO datosPlatoDTO) {
         service.guardarPlato(datosPlatoDTO);
 
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponsePlatoDTO> actualizarPlato(@PathVariable Long id, @RequestBody ActualizarPlatoDTO actualizarPlatoDTO){
+    public ResponseEntity<ResponsePlatoDTO> actualizarPlato(@PathVariable Long id, @RequestBody ActualizarPlatoDTO actualizarPlatoDTO) {
         ResponsePlatoDTO platoActualizado = service.actualizarPlato(id, actualizarPlatoDTO);
         //retornar datos actualizados
         return ResponseEntity.ok(platoActualizado);
     }
 
     @GetMapping
-   public ResponseEntity<Page<ListaPlatosDTO>> listarPlatos(Pageable pageable){
+    public ResponseEntity<Page<ListaPlatosDTO>> listarPlatos(Pageable pageable) {
 
         //Se mapea cada registro de un Plato a una listaPlatosDTO
         return ResponseEntity.ok(service.listarPlatos(pageable).map(ListaPlatosDTO::new)); //se llama al constructor de ListaPlatosDTO
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity listarPlatosId(@PathVariable Long id){
+    public ResponseEntity listarPlatosId(@PathVariable Long id) {
 
         var datosPlato = service.listarplatoId(id);
 
         return ResponseEntity.ok(datosPlato);
     }
-
-
-
+    
 }
