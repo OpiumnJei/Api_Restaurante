@@ -2,6 +2,8 @@ package com.prueba_tecnica.restaurante.controller;
 
 import com.prueba_tecnica.restaurante.domain.ingredientes.Ingrediente;
 import com.prueba_tecnica.restaurante.domain.platos.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Platos", description = "Operaciones relacionadas con la gestion de platos.")
+@SecurityRequirement(name = "bearer-key")//se usa para indicar que un endpoint específico requiere autenticación o autorización
 @RestController
 @RequestMapping("/restaurante/platos")
 public class PlatoController {

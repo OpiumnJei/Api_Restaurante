@@ -4,6 +4,7 @@ import com.prueba_tecnica.restaurante.domain.usuarios.LoginUsuarioDTO;
 import com.prueba_tecnica.restaurante.domain.usuarios.Usuario;
 import com.prueba_tecnica.restaurante.infra.autenticacion.ResponseTokenJWT;
 import com.prueba_tecnica.restaurante.infra.autenticacion.TokenService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
+@Tag(name = "Login", description = "Se genera bearer token para la autorizacion en el resto de endpoints.")//anotacion de springdoc
 @RestController
 @RequestMapping("/restaurante/login")
 public class AutenticacionUsuarioController {

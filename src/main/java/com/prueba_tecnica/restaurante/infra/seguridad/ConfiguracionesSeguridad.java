@@ -32,12 +32,13 @@ public class ConfiguracionesSeguridad {
                 .and()
                 .authorizeHttpRequests()//Método para manejar la autorización
                 .requestMatchers(HttpMethod.POST, "/restaurante/login").permitAll() //Permitir login sin autenticación
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**","/v3/api-docs/**").permitAll()//se da acceso a la documentacion tanto en formato json como en la ui
                 .requestMatchers("/restaurante/ingredientes/**").hasRole("ADMINISTRADOR")//se da acceso a los ingredientes solo a los admins
-                .requestMatchers("/restaurante/platos/**").hasRole("ADMINISTRADOR")//se da acceso a los platos solo a los admins
+                .requestMatchers("/restaurante/platos/**").hasRole("ADMINISTRADOR")//se da acceso a los platos solo a los admins y a todas las subconsultas
                 .requestMatchers("/restaurante/ordenes/**").hasRole("MESERO")//se da acceso a las ordenes solo a los meseros
                 .anyRequest().authenticated()//Requerir autenticación para cualquier otra petición
                 .and()
-                .exceptionHandling()
+                .exceptionHandling()//ermite agregar personalizaciones sobre cómo manejar las excepciones de seguridad
                 .authenticationEntryPoint(new Tratar401())//lanzar el 401
                 .accessDeniedHandler(new Tratar403())//lanzar 403
                 .and()

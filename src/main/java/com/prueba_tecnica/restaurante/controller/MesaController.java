@@ -4,6 +4,8 @@ import com.prueba_tecnica.restaurante.domain.mesas.ActualizarMesaDTO;
 import com.prueba_tecnica.restaurante.domain.mesas.DatosMesaDTO;
 import com.prueba_tecnica.restaurante.domain.mesas.ListaMesasDTO;
 import com.prueba_tecnica.restaurante.domain.mesas.MesaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Mesas", description = "Operaciones relacionadas con la gestion de mesas.")
+@SecurityRequirement(name = "bearer-key")//se usa para indicar que un endpoint específico requiere autenticación o autorización
 @RestController
 @RequestMapping("/restaurante/mesas")
 public class MesaController {

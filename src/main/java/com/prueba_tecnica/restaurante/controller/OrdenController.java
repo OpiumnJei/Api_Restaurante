@@ -4,6 +4,8 @@ import com.prueba_tecnica.restaurante.domain.ordenes.ActualizarOrdenDTO;
 import com.prueba_tecnica.restaurante.domain.ordenes.DatosOrdenDTO;
 import com.prueba_tecnica.restaurante.domain.ordenes.OrdenService;
 import com.prueba_tecnica.restaurante.domain.ordenes.ResponseOrdenDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,8 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Ordenes", description = "Operaciones relacionadas con la gestion de ordenes.")
 @RestController
 @RequestMapping("/restaurante/ordenes")
+@SecurityRequirement(name = "bearer-key")//se usa para indicar que un endpoint específico requiere autenticación o autorización
 public class OrdenController {
 
     @Autowired
