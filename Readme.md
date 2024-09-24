@@ -4,6 +4,7 @@
 
 Esta es una API REST para la gestión de un restaurante, que contiene las funcionalidades CRUD para platos, ingredientes, órdenes, mesas y usuarios. La API permite gestionar dinámicamente las tareas del restaurante, incluyendo el registro de diferentes usuarios con roles específicos (mesero, administrador), garantizando una administración eficiente de las operaciones.
 La API utiliza Spring Boot, y JWT para la autenticacion.
+
 ---
 ## Características
 
@@ -52,7 +53,6 @@ La API utiliza Spring Boot, y JWT para la autenticacion.
 - **Descripción**: Actualiza los datos de un ingrediente existente.
 
 ---
-
 ## Mesas
 
 ### Listar Mesa por ID
@@ -80,7 +80,6 @@ La API utiliza Spring Boot, y JWT para la autenticacion.
 - **Descripción**: Obtiene la orden en proceso para una mesa específica.
 
 ---
-
 ## Órdenes
 
 ### Listar Orden por ID
@@ -104,7 +103,6 @@ La API utiliza Spring Boot, y JWT para la autenticacion.
 - **Descripción**: Elimina una orden existente.
 
 ---
-
 ## Platos
 
 ### Listar Plato por ID
@@ -124,7 +122,6 @@ La API utiliza Spring Boot, y JWT para la autenticacion.
 - **Descripción**: Actualiza los datos de un plato existente.
 
 ---
-
 ## Usuarios y Roles
 
 ### Registrar Mesero
@@ -136,7 +133,6 @@ La API utiliza Spring Boot, y JWT para la autenticacion.
 - **Descripción**: Registra un nuevo administrador en el sistema.
 
 ---
-
 ## Autenticación
 
 ### Login
@@ -144,7 +140,6 @@ La API utiliza Spring Boot, y JWT para la autenticacion.
 - **Descripción**: Autentica a un usuario y genera un token JWT para acceder a los demás endpoints.
 
 ---
-
 ## Autorización
 Los endpoints de la API están protegidos mediante **JWT** (JSON Web Tokens). Para acceder a la mayoría de los recursos, debes estar autenticado y proporcionar un token válido en los **headers** de las solicitudes.
 
