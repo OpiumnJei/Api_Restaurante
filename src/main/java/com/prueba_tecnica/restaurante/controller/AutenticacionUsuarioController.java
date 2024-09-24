@@ -4,6 +4,7 @@ import com.prueba_tecnica.restaurante.domain.usuarios.LoginUsuarioDTO;
 import com.prueba_tecnica.restaurante.domain.usuarios.Usuario;
 import com.prueba_tecnica.restaurante.infra.autenticacion.ResponseTokenJWT;
 import com.prueba_tecnica.restaurante.infra.autenticacion.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class AutenticacionUsuarioController {
     private TokenService tokenService; //servicio donde se genera el token jwt
 
     //autenticarDatos
+    @Operation(summary = "Login", description = "El usuario introduce sus credenciales, y si esta registrado, se genera un JWT.")
     @PostMapping
     public ResponseEntity autenticarUsuario(@RequestBody @Valid LoginUsuarioDTO loginUsuarioDTO){
         //datosUsuario representa una solicitud de autenticación con las credenciales proporcionadas.

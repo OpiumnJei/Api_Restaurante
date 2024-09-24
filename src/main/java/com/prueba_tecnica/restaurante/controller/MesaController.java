@@ -4,6 +4,7 @@ import com.prueba_tecnica.restaurante.domain.mesas.ActualizarMesaDTO;
 import com.prueba_tecnica.restaurante.domain.mesas.DatosMesaDTO;
 import com.prueba_tecnica.restaurante.domain.mesas.ListaMesasDTO;
 import com.prueba_tecnica.restaurante.domain.mesas.MesaService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -23,6 +24,7 @@ public class MesaController {
     @Autowired
     private MesaService service;
 
+    @Operation(summary = "Registrar mesa", description = "Se crea registro de una mesa.")
     @PostMapping
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity guardarMesa(@RequestBody @Valid DatosMesaDTO datosMesaDTO){
@@ -32,6 +34,7 @@ public class MesaController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Actualizar mesa", description = "Se actualiza registro de una mesa.")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity actualizarMesa(@PathVariable Long id, @RequestBody ActualizarMesaDTO actualizarMesaDTO){
@@ -40,6 +43,7 @@ public class MesaController {
         return ResponseEntity.ok(new ActualizarMesaDTO(mesaActualizada.getId(), mesaActualizada.getCantidadMaxPersonas(), mesaActualizada.getDescripcionMesa(), mesaActualizada.getEstadoMesa()));
     }
 
+    @Operation(summary = "Listar mesas", description = "Se listan todos los registros de mesas.")
     @GetMapping
     @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('MESERO')")
     public ResponseEntity<Page<ListaMesasDTO>> listarMesas(Pageable pageable){
@@ -49,6 +53,7 @@ public class MesaController {
         return ResponseEntity.ok(service.listarMesas(pageable).map(ListaMesasDTO::new));
     }
 
+    @Operation(summary = "Listar mesa ID", description = "Se lista un registro en especifico de una mesa.")
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('MESERO')")
     public ResponseEntity listarMesasId(@PathVariable Long id){
@@ -57,6 +62,7 @@ public class MesaController {
     }
 
     //listar las ordenes en proceso de para una mesa
+    @Operation(summary = "Listar orden en proceso para una mesa", description = "Se lista orden/nes en proceso que tiene una mesa.")
     @GetMapping("/ordenes/{idMesa}")
     @PreAuthorize("hasRole('MESERO')")
     public ResponseEntity listarOrdenMesaId(@PathVariable Long idMesa){
@@ -66,6 +72,7 @@ public class MesaController {
     }
 
     //cambiar estado a una mesa
+    @Operation(summary = "Cambiar estado mesa", description = "Se cambia el estado a una mesa en especifico.")
     @PutMapping("/estado-mesa/{id}")
     @PreAuthorize("hasRole('MESERO')")
     public ResponseEntity cambiarEstadoMesa(@PathVariable Long id, @RequestBody DatosMesaDTO datosMesaDTO){
